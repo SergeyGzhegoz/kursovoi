@@ -67,5 +67,6 @@ class Cars(models.Model):
         return f'{self.stamp} {self.model}'
 
     class Meta:
+        ordering = ['stamp']
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
