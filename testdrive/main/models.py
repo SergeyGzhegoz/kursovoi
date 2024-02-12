@@ -21,7 +21,7 @@ class Orders(models.Model):
     description = models.TextField(verbose_name='Описание')
 
     def __str__(self):
-        return self.created
+        return str(self.created)
 
     class Meta:
         ordering = ['created']
@@ -53,8 +53,20 @@ class DriveType(models.Model):
         verbose_name_plural = 'Тип привода'
 
 
+class Brands(models.Model):
+    title = models.CharField(verbose_name='Название', max_length=60)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
+        verbose_name = 'Марка'
+        verbose_name_plural = 'Марки'
+
+
 class Cars(models.Model):
-    stamp = models.ForeignKey('auth.User', verbose_name='На дату', related_name='orders_user', on_delete=models.CASCADE)
+    brand = models.ForeignKey('Brands', verbose_name='Марка', related_name='cars_brands', on_delete=models.CASCADE)
     model = models.CharField(verbose_name='Модель', max_length=50)
     engine_capacity = models.FloatField(verbose_name='Объём двигателя')
     engine_power = models.IntegerField(verbose_name='Мощность двигателя')
@@ -64,9 +76,9 @@ class Cars(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return f'{self.stamp} {self.model}'
+        return f'{self.brand} {self.model}'
 
     class Meta:
-        ordering = ['stamp']
+        ordering = ['brand']
         verbose_name = 'Автомобиль'
         verbose_name_plural = 'Автомобили'
